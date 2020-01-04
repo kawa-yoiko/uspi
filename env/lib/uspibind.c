@@ -26,6 +26,7 @@
 #include <uspienv/util.h>
 #include <uspienv/assert.h>
 
+/*
 void MsDelay (unsigned nMilliSeconds)
 {
 	TimerMsDelay (TimerGet (), nMilliSeconds);
@@ -35,6 +36,7 @@ void usDelay (unsigned nMicroSeconds)
 {
 	TimerusDelay (TimerGet (), nMicroSeconds);
 }
+*/
 
 /*
 unsigned StartKernelTimer (unsigned nDelay, TKernelTimerHandler *pHandler, void *pParam, void *pContext)
@@ -53,6 +55,7 @@ void ConnectInterrupt (unsigned nIRQ, TInterruptHandler *pHandler, void *pParam)
 }
 */
 
+/*
 int SetPowerStateOn (unsigned nDeviceId)
 {
 	TBcmPropertyTags Tags;
@@ -92,6 +95,7 @@ int GetMACAddress (unsigned char Buffer[6])
 
 	return 1;
 }
+*/
 
 /*
 void LogWrite (const char *pSource, unsigned Severity, const char *pMessage, ...)

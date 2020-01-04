@@ -124,6 +124,7 @@ unsigned long mem_get_size (void)
 #endif
 }
 
+/*
 void *malloc (unsigned long ulSize)
 {
 	assert (s_pNextBlock != 0);
@@ -206,6 +207,7 @@ void free (void *pBlock)
 		}
 	}
 }
+*/
 
 #ifdef MEM_PAGE_ALLOC
 
