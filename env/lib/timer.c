@@ -68,7 +68,7 @@ boolean TimerInitialize (TTimer *pThis)
 	assert (pThis != 0);
 
 	assert (pThis->m_pInterruptSystem != 0);
-	InterruptSystemConnectIRQ (pThis->m_pInterruptSystem, ARM_IRQ_TIMER3, TimerInterruptHandler, pThis);
+	ConnectInterrupt (ARM_IRQ_TIMER3, TimerInterruptHandler, pThis);
 
 	DataMemBarrier ();
 

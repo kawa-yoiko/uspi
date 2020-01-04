@@ -42,18 +42,18 @@ int USPiEnvInitialize (void)
 */
 
 	//ExceptionHandler2 (&s_Env.m_ExceptionHandler);
-	InterruptSystem (&s_Env.m_Interrupt);
+	//InterruptSystem (&s_Env.m_Interrupt);
 	Timer (&s_Env.m_Timer, &s_Env.m_Interrupt);
 	//Logger (&s_Env.m_Logger, LogDebug, &s_Env.m_Timer);
 
 	if (   //!LoggerInitialize (&s_Env.m_Logger, &s_Env.m_Screen)
     0
-	    || !InterruptSystemInitialize (&s_Env.m_Interrupt)
+	    //|| !InterruptSystemInitialize (&s_Env.m_Interrupt)
 	    || !TimerInitialize (&s_Env.m_Timer)
 	) {
 		//_Logger (&s_Env.m_Logger);
 		_Timer (&s_Env.m_Timer);
-		_InterruptSystem (&s_Env.m_Interrupt);
+		//_InterruptSystem (&s_Env.m_Interrupt);
 		//_ExceptionHandler (&s_Env.m_ExceptionHandler);
 		//_ScreenDevice (&s_Env.m_Screen);
 

@@ -23,6 +23,7 @@
 #include <uspienv/memio.h>
 #include <uspienv/types.h>
 #include <uspienv/assert.h>
+#include <uspienv/logger.h>
 
 #define ARM_IC_IRQ_PENDING(irq)	(  (irq) < ARM_IRQ2_BASE	\
 				 ? ARM_IC_IRQ_PENDING_1		\
@@ -176,15 +177,17 @@ int InterruptSystemCallIRQHandler (TInterruptSystem *pThis, unsigned nIRQ)
 
 int zzz = 0, yyy = 0;
 void irq_handler(u32 ret_addr);
+int printf_(const char* format, ...);
 
 void InterruptHandler (void)
 {
+  //printf_("===\n");
   irq_handler(0);
-  //return;
+  return;
 
 	assert (s_pThis != 0);
 
-	DataMemBarrier ();
+	//DataMemBarrier ();
 	
 	for (unsigned nIRQ = 0; nIRQ < IRQ_LINES; nIRQ++)
 	{
@@ -194,7 +197,7 @@ void InterruptHandler (void)
 		if (read32 (nPendReg) & nIRQMask)
 		{
       if (nIRQ == 9) zzz++;
-      yyy++;
+      //printf_("---- %u\n", nIRQ);
 			if (InterruptSystemCallIRQHandler (s_pThis, nIRQ))
 			{
 				DataMemBarrier ();
