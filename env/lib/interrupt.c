@@ -174,8 +174,14 @@ int InterruptSystemCallIRQHandler (TInterruptSystem *pThis, unsigned nIRQ)
 	return 0;
 }
 
+int zzz = 0, yyy = 0;
+void irq_handler(u32 ret_addr);
+
 void InterruptHandler (void)
 {
+  irq_handler(0);
+  //return;
+
 	assert (s_pThis != 0);
 
 	DataMemBarrier ();
@@ -187,6 +193,8 @@ void InterruptHandler (void)
 		
 		if (read32 (nPendReg) & nIRQMask)
 		{
+      if (nIRQ == 9) zzz++;
+      yyy++;
 			if (InterruptSystemCallIRQHandler (s_pThis, nIRQ))
 			{
 				DataMemBarrier ();

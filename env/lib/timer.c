@@ -41,6 +41,7 @@ void Timer (TTimer *pThis, TInterruptSystem *pInterruptSystem)
 	pThis->m_pInterruptSystem = pInterruptSystem;
 	pThis->m_nTicks = 0;
 	pThis->m_nTime = 0;
+#define ARM_DISABLE_MMU
 #ifdef ARM_DISABLE_MMU
 	pThis->m_nMsDelay = 12500;
 #else

@@ -29,7 +29,10 @@ typedef int		boolean;
 #define FALSE		0
 #define TRUE		1
 
-typedef unsigned long	size_t;
-typedef long		ssize_t;
+#ifndef __SIZE_TYPE__
+#define __SIZE_TYPE__ long
+#endif
+typedef __SIZE_TYPE__	size_t;
+typedef __SIZE_TYPE__		ssize_t;
 
 #endif

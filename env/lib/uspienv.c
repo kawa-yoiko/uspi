@@ -24,12 +24,14 @@ static TUSPiEnv s_Env;
 
 int USPiEnvInitialize (void)
 {
+#define ARM_DISABLE_MMU
 #ifdef ARM_DISABLE_MMU
 	MemorySystem (&s_Env.m_Memory, FALSE);
 #else
 	MemorySystem (&s_Env.m_Memory, TRUE);
 #endif
 
+/*
 	ScreenDevice (&s_Env.m_Screen, 0, 0);
 	if (!ScreenDeviceInitialize (&s_Env.m_Screen))
 	{
@@ -37,21 +39,23 @@ int USPiEnvInitialize (void)
 
 		return 0;
 	}
+*/
 
-	ExceptionHandler2 (&s_Env.m_ExceptionHandler);
+	//ExceptionHandler2 (&s_Env.m_ExceptionHandler);
 	InterruptSystem (&s_Env.m_Interrupt);
 	Timer (&s_Env.m_Timer, &s_Env.m_Interrupt);
-	Logger (&s_Env.m_Logger, LogDebug, &s_Env.m_Timer);
+	//Logger (&s_Env.m_Logger, LogDebug, &s_Env.m_Timer);
 
-	if (   !LoggerInitialize (&s_Env.m_Logger, &s_Env.m_Screen)
+	if (   //!LoggerInitialize (&s_Env.m_Logger, &s_Env.m_Screen)
+    0
 	    || !InterruptSystemInitialize (&s_Env.m_Interrupt)
-	    || !TimerInitialize (&s_Env.m_Timer))
-	{
-		_Logger (&s_Env.m_Logger);
+	    || !TimerInitialize (&s_Env.m_Timer)
+	) {
+		//_Logger (&s_Env.m_Logger);
 		_Timer (&s_Env.m_Timer);
 		_InterruptSystem (&s_Env.m_Interrupt);
-		_ExceptionHandler (&s_Env.m_ExceptionHandler);
-		_ScreenDevice (&s_Env.m_Screen);
+		//_ExceptionHandler (&s_Env.m_ExceptionHandler);
+		//_ScreenDevice (&s_Env.m_Screen);
 
 		return 0;
 	}

@@ -36,6 +36,7 @@ void usDelay (unsigned nMicroSeconds)
 	TimerusDelay (TimerGet (), nMicroSeconds);
 }
 
+/*
 unsigned StartKernelTimer (unsigned nDelay, TKernelTimerHandler *pHandler, void *pParam, void *pContext)
 {
 	return TimerStartKernelTimer (TimerGet (), nDelay, pHandler, pParam, pContext);
@@ -50,6 +51,7 @@ void ConnectInterrupt (unsigned nIRQ, TInterruptHandler *pHandler, void *pParam)
 {
 	InterruptSystemConnectIRQ (InterruptSystemGet (), nIRQ, pHandler, pParam);
 }
+*/
 
 int SetPowerStateOn (unsigned nDeviceId)
 {
@@ -91,6 +93,7 @@ int GetMACAddress (unsigned char Buffer[6])
 	return 1;
 }
 
+/*
 void LogWrite (const char *pSource, unsigned Severity, const char *pMessage, ...)
 {
 	va_list var;
@@ -114,3 +117,4 @@ void DebugHexdump (const void *pBuffer, unsigned nBufLen, const char *pSource)
 }
 
 #endif
+*/
