@@ -1,3 +1,5 @@
+:construction: See Mikabox, branch [usb](http://github.com/kawa-yoiko/mikabox/tree/usb)
+
 USPi
 ====
 
