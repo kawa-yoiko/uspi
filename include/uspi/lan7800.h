@@ -41,6 +41,7 @@ typedef struct TLAN7800Device
 }
 TLAN7800Device;
 
+void LAN7800DeviceResetGlobalCount ();
 void LAN7800Device (TLAN7800Device *pThis, TUSBFunction *pFunction);
 void _LAN7800Device (TLAN7800Device *pThis);
 

@@ -243,6 +243,11 @@ static const char FromLAN7800[] = "lan7800";
 // starting at 10, to be sure to not collide with smsc951x driver
 static unsigned s_nDeviceNumber = 10;
 
+void LAN7800DeviceResetGlobalCount ()
+{
+	s_nDeviceNumber = 10;
+}
+
 void LAN7800Device (TLAN7800Device *pThis, TUSBFunction *pFunction)
 {
 	assert (pThis != 0);

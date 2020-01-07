@@ -195,6 +195,11 @@ int USBBulkOnlyMassStorageDeviceCommand (TUSBBulkOnlyMassStorageDevice *pThis,
 					 void *pBuffer, unsigned nBufLen, boolean bIn);
 int USBBulkOnlyMassStorageDeviceReset (TUSBBulkOnlyMassStorageDevice *pThis);
 
+void USBBulkOnlyMassStorageDeviceResetGlobalCount ()
+{
+	s_nDeviceNumber = 1;
+}
+
 void USBBulkOnlyMassStorageDevice (TUSBBulkOnlyMassStorageDevice *pThis, TUSBFunction *pDevice)
 {
 	assert (pThis != 0);

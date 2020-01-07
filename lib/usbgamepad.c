@@ -81,6 +81,11 @@ static boolean USBGamePadDeviceStartRequest (TUSBGamePadDevice *pThis);
 static void USBGamePadDeviceCompletionRoutine (TUSBRequest *pURB, void *pParam, void *pContext);
 static void USBGamePadDevicePS3Configure (TUSBGamePadDevice *pThis);
 
+void USBGamePadDeviceResetGlobalCount ()
+{
+	s_nDeviceNumber = 1;
+}
+
 void USBGamePadDevice (TUSBGamePadDevice *pThis, TUSBFunction *pDevice)
 {
 	assert (pThis != 0);

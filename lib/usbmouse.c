@@ -32,6 +32,11 @@ static const char FromUSBMouse[] = "umouse";
 static boolean USBMouseDeviceStartRequest (TUSBMouseDevice *pThis);
 static void USBMouseDeviceCompletionRoutine (TUSBRequest *pURB, void *pParam, void *pContext);
 
+void USBMouseDeviceResetGlobalCount ()
+{
+	s_nDeviceNumber = 1;
+}
+
 void USBMouseDevice (TUSBMouseDevice *pThis, TUSBFunction *pDevice)
 {
 	assert (pThis != 0);

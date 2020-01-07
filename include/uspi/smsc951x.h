@@ -41,6 +41,7 @@ typedef struct TSMSC951xDevice
 }
 TSMSC951xDevice;
 
+void SMSC851xDeviceResetGlobalCount ();
 void SMSC951xDevice (TSMSC951xDevice *pThis, TUSBFunction *pFunction);
 void _SMSC951xDevice (TSMSC951xDevice *pThis);
 

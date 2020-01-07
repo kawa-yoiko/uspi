@@ -47,6 +47,7 @@ typedef struct TUSBBulkOnlyMassStorageDevice
 }
 TUSBBulkOnlyMassStorageDevice;
 
+void USBBulkOnlyMassStorageDeviceResetGlobalCount ();
 void USBBulkOnlyMassStorageDevice (TUSBBulkOnlyMassStorageDevice *pThis, TUSBFunction *pFunction);
 void _USBBulkOnlyMassStorageDevice (TUSBBulkOnlyMassStorageDevice *pThis);
 

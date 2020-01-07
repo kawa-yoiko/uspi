@@ -42,6 +42,7 @@ typedef struct TUSBMIDIDevice
 }
 TUSBMIDIDevice;
 
+void USBMIDIDeviceResetGlobalCount ();
 void USBMIDIDevice (TUSBMIDIDevice *pThis, TUSBFunction *pFunction);
 void _CUSBMIDIDevice (TUSBMIDIDevice *pThis);
 

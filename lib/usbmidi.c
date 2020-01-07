@@ -41,6 +41,11 @@ static const unsigned cin_to_length[] = {
 
 #define EVENT_PACKET_SIZE 4
 
+void USBMIDIDeviceResetGlobalCount ()
+{
+	s_nDeviceNumber = 1;
+}
+
 void USBMIDIDevice (TUSBMIDIDevice *pThis, TUSBFunction *pDevice)
 {
 	assert (pThis != 0);

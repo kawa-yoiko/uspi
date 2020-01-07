@@ -48,6 +48,7 @@ typedef struct TUSBGamePadDevice
 }
 TUSBGamePadDevice;
 
+void USBGamePadDeviceResetGlobalCount ();
 void USBGamePadDevice (TUSBGamePadDevice *pThis, TUSBFunction *pFunction);
 void _CUSBGamePadDevice (TUSBGamePadDevice *pThis);
 

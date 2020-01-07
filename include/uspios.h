@@ -76,6 +76,8 @@ unsigned StartKernelTimer (unsigned	        nHzDelay,	// in HZ units (see "syste
 
 void CancelKernelTimer (unsigned hTimer);
 
+void CancelAllKernelTimers ();
+
 //
 // Interrupt handling
 //

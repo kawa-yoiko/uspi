@@ -132,6 +132,11 @@ void SMSC951xDeviceDumpReg (TSMSC951xDevice *pThis, const char *pName, u32 nInde
 void SMSC951xDeviceDumpRegs (TSMSC951xDevice *pThis);
 #endif
 
+void SMSC851xDeviceResetGlobalCount ()
+{
+	s_nDeviceNumber = 0;
+}
+
 void SMSC951xDevice (TSMSC951xDevice *pThis, TUSBFunction *pDevice)
 {
 	assert (pThis != 0);

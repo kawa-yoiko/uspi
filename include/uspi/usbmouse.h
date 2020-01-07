@@ -45,6 +45,7 @@ typedef struct TUSBMouseDevice
 }
 TUSBMouseDevice;
 
+void USBMouseDeviceResetGlobalCount ();
 void USBMouseDevice (TUSBMouseDevice *pThis, TUSBFunction *pFunction);
 void _CUSBMouseDevice (TUSBMouseDevice *pThis);
 

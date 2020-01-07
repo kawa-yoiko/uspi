@@ -59,6 +59,7 @@ typedef struct TUSBKeyboardDevice
 }
 TUSBKeyboardDevice;
 
+void USBKeyboardDeviceResetGlobalCount ();
 void USBKeyboardDevice (TUSBKeyboardDevice *pThis, TUSBFunction *pFunction);
 void _CUSBKeyboardDevice (TUSBKeyboardDevice *pThis);
 

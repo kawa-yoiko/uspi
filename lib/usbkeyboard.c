@@ -45,6 +45,11 @@ static u8 USBKeyboardDeviceGetKeyCode (TUSBKeyboardDevice *pThis);
 static void USBKeyboardDeviceTimerHandler (unsigned hTimer, void *pParam, void *pContext);
 #endif
 
+void USBKeyboardDeviceResetGlobalCount ()
+{
+	s_nDeviceNumber = 1;
+}
+
 void USBKeyboardDevice (TUSBKeyboardDevice *pThis, TUSBFunction *pDevice)
 {
 	assert (pThis != 0);

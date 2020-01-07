@@ -29,6 +29,23 @@ static const char FromUSPi[] = "uspi";
 
 static TUSPiLibrary *s_pLibrary = 0;
 
+void USPiDeinitialize (void)
+{
+	LogWrite (FromUSPi, LOG_DEBUG, "Deinitializing " USPI_NAME " " USPI_VERSION_STRING);
+
+	ConnectInterrupt (9, 0, 0);
+	CancelAllKernelTimers ();
+
+	assert (s_pLibrary != 0);
+	_DWHCIDevice (&s_pLibrary->DWHCI);
+	_DeviceNameService (&s_pLibrary->NameService);
+
+	free (s_pLibrary);
+	s_pLibrary = 0;
+
+	LogWrite (FromUSPi, LOG_DEBUG, USPI_NAME " successfully uninitialized");
+}
+
 int USPiInitialize (void)
 {
 	LogWrite (FromUSPi, LOG_DEBUG, "Initializing " USPI_NAME " " USPI_VERSION_STRING);
@@ -41,6 +58,14 @@ int USPiInitialize (void)
 	DWHCIDevice (&s_pLibrary->DWHCI);
 	s_pLibrary->pEth0 = 0;
 	s_pLibrary->pEth10 = 0;
+
+	USBKeyboardDeviceResetGlobalCount ();
+	USBMouseDeviceResetGlobalCount ();
+	USBBulkOnlyMassStorageDeviceResetGlobalCount ();
+	LAN7800DeviceResetGlobalCount ();
+	SMSC851xDeviceResetGlobalCount ();
+	USBGamePadDeviceResetGlobalCount ();
+	USBMIDIDeviceResetGlobalCount ();
 
 	if (!DWHCIDeviceInitialize (&s_pLibrary->DWHCI))
 	{

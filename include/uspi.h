@@ -43,6 +43,8 @@ extern "C" {
 // returns 0 on failure
 int USPiInitialize (void);
 
+void USPiDeinitialize (void);
+
 //
 // Keyboard device
 //
