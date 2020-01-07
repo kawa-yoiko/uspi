@@ -469,6 +469,11 @@ boolean USBGamePadDeviceStartRequest (TUSBGamePadDevice *pThis)
 	return DWHCIDeviceSubmitAsyncRequest (USBFunctionGetHost (&pThis->m_USBFunction), &pThis->m_URB);
 }
 
+static void USBGamePadDeviceStartRequestDelayedCallback (TKernelTimerHandle h, void *arg, void *ctx)
+{
+	USBGamePadDeviceStartRequest ((TUSBGamePadDevice *)arg);
+}
+
 void USBGamePadDeviceCompletionRoutine (TUSBRequest *pURB, void *pParam, void *pContext)
 {
 	TUSBGamePadDevice *pThis = (TUSBGamePadDevice *) pContext;
@@ -490,7 +495,7 @@ void USBGamePadDeviceCompletionRoutine (TUSBRequest *pURB, void *pParam, void *p
 
 	_USBRequest (&pThis->m_URB);
 
-	USBGamePadDeviceStartRequest (pThis);
+	StartKernelTimer (0, USBGamePadDeviceStartRequestDelayedCallback, pThis, 0);
 }
 
 void USBGamePadDeviceGetReport (TUSBGamePadDevice *pThis)
