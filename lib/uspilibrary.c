@@ -31,12 +31,13 @@ static TUSPiLibrary *s_pLibrary = 0;
 
 void USPiDeinitialize (void)
 {
+  if (s_pLibrary == 0) return;
+
 	LogWrite (FromUSPi, LOG_DEBUG, "Deinitializing " USPI_NAME " " USPI_VERSION_STRING);
 
 	ConnectInterrupt (9, 0, 0);
 	CancelAllKernelTimers ();
 
-	assert (s_pLibrary != 0);
 	_DWHCIDevice (&s_pLibrary->DWHCI);
 	_DeviceNameService (&s_pLibrary->NameService);
 
