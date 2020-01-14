@@ -43,7 +43,6 @@ typedef struct TDWHCIDevice
 	TDWHCITransferStageData m_StageData[DWHCI_MAX_CHANNELS];
 
 	volatile boolean m_bWaiting;
-	// boolean m_bLastConnect;
 
 	TDWHCIRootPort m_RootPort;
 }
