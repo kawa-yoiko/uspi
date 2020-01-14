@@ -502,6 +502,27 @@ boolean DWHCIDeviceInitHost (TDWHCIDevice *pThis)
 	return TRUE;
 }
 
+boolean DWHCIDeviceConnectionChanged (TDWHCIDevice *pThis)
+{
+/*
+	// XXX: Maybe use DWHCI_HOST_PORT_CONNECT_CHANGED?
+	TDWHCIRegister HostPort;
+	DWHCIRegister (&HostPort, DWHCI_HOST_PORT);
+	u32 port = DWHCIRegisterRead (&HostPort);
+	_DWHCIRegister (&HostPort);
+
+	boolean connect = !!(port & DWHCI_HOST_PORT_CONNECT);
+
+	// Should not short-circuit here, since both need to be
+	// cleared at start-up
+	boolean bResult = (connect ^ pThis->m_bLastConnect);
+	pThis->m_bLastConnect = connect;
+	bResult |= DWHCIRootPortConnectionChanged(&pThis->m_RootPort);
+	return bResult;
+*/
+	return DWHCIRootPortConnectionChanged(&pThis->m_RootPort);
+}
+
 boolean DWHCIDeviceEnableRootPort (TDWHCIDevice *pThis)
 {
 	assert (pThis != 0);
@@ -511,6 +532,7 @@ boolean DWHCIDeviceEnableRootPort (TDWHCIDevice *pThis)
 	if (!DWHCIDeviceWaitForBit (pThis, &HostPort, DWHCI_HOST_PORT_CONNECT, TRUE, 20))
 	{
 		_DWHCIRegister (&HostPort);
+		// pThis->m_bLastConnect = FALSE;
 
 		return FALSE;
 	}
@@ -534,6 +556,7 @@ boolean DWHCIDeviceEnableRootPort (TDWHCIDevice *pThis)
 
 	_DWHCIRegister (&HostPort);
 
+	// pThis->m_bLastConnect = TRUE;
 	return TRUE;
 }
 

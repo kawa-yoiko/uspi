@@ -43,6 +43,7 @@ typedef struct TDWHCIDevice
 	TDWHCITransferStageData m_StageData[DWHCI_MAX_CHANNELS];
 
 	volatile boolean m_bWaiting;
+	// boolean m_bLastConnect;
 
 	TDWHCIRootPort m_RootPort;
 }
@@ -77,6 +78,8 @@ boolean DWHCIDeviceSubmitAsyncRequest (TDWHCIDevice *pThis, TUSBRequest *pURB);
 TUSBSpeed DWHCIDeviceGetPortSpeed (TDWHCIDevice *pThis);
 boolean DWHCIDeviceOvercurrentDetected (TDWHCIDevice *pThis);
 void DWHCIDeviceDisableRootPort (TDWHCIDevice *pThis);
+
+boolean DWHCIDeviceConnectionChanged (TDWHCIDevice *pThis);
 
 #ifdef __cplusplus
 }

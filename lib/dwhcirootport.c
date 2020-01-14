@@ -114,13 +114,21 @@ boolean DWHCIRootPortInitialize (TDWHCIRootPort *pThis)
 	return TRUE;
 }
 
+boolean USBStandardHubConfigure (TUSBFunction *pUSBFunction);
+
 boolean DWHCIRootPortConnectionChanged (TDWHCIRootPort *pThis)
 {
+	boolean bResult = FALSE;
+
 	for (unsigned i = 0; i < USBDEV_MAX_FUNCTIONS; i++)
 	{
-		if (pThis->m_pDevice->m_pFunction[i] != 0) {
-			return USBStandardHubConnectionChanged(pThis->m_pDevice->m_pFunction[i]);
+		if (pThis->m_pDevice->m_pFunction[i] != 0 &&
+			pThis->m_pDevice->m_pFunction[i]->Configure == USBStandardHubConfigure)
+		{
+			bResult |= USBStandardHubConnectionChanged (
+				(TUSBStandardHub *) pThis->m_pDevice->m_pFunction[i]);
 		}
 	}
-	return FALSE;
+
+	return bResult;
 }

@@ -78,7 +78,6 @@ void _USBStandardHub (TUSBStandardHub *pThis)
 boolean USBStandardHubConfigure (TUSBFunction *pUSBFunction)
 {
 	TUSBStandardHub *pThis = (TUSBStandardHub *) pUSBFunction;
-	LogWrite ("qwq", LOG_DEBUG, "configure: %p", pThis);
 	assert (pThis != 0);
 
 	if (USBFunctionGetNumEndpoints (&pThis->m_USBFunction) != 1)
@@ -366,13 +365,6 @@ boolean USBStandardHubEnumeratePorts (TUSBStandardHub *pThis)
 			LogWrite (FromHub, LOG_ERROR, "Over-current condition on port %u", nPort+1);
 
 			bResult = FALSE;
-		}
-
-		if (pThis->m_pStatus[nPort]->wPortChange & C_PORT_CONNECTION__MASK)
-		{
-			DWHCIDeviceControlMessage (pHost, pEndpoint0,
-				REQUEST_OUT | REQUEST_CLASS | REQUEST_TO_OTHER,
-				CLEAR_FEATURE, C_PORT_CONNECTION, nPort+1, 0, 0);
 		}
 	}
 
