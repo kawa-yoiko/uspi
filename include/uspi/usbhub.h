@@ -39,6 +39,7 @@
 // Feature Selectors
 #define PORT_RESET			4
 #define PORT_POWER			8
+#define C_PORT_CONNECTION		16
 
 // Hub Descriptor
 typedef struct TUSBHubDescriptor
@@ -79,7 +80,8 @@ typedef struct TUSBPortStatus
 		#define PORT_POWER__MASK		(1 << 8)
 		#define PORT_LOW_SPEED__MASK		(1 << 9)
 		#define PORT_HIGH_SPEED__MASK		(1 << 10)
-	unsigned short	wChangeStatus;
+	unsigned short	wPortChange;
+		#define C_PORT_CONNECTION__MASK		(1 << 0)
 }
 PACKED TUSBPortStatus;
 

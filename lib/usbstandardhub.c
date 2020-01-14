@@ -367,18 +367,27 @@ boolean USBStandardHubEnumeratePorts (TUSBStandardHub *pThis)
 
 			bResult = FALSE;
 		}
+
+		if (pThis->m_pStatus[nPort]->wPortChange & C_PORT_CONNECTION__MASK)
+		{
+			DWHCIDeviceControlMessage (pHost, pEndpoint0,
+				REQUEST_OUT | REQUEST_CLASS | REQUEST_TO_OTHER,
+				CLEAR_FEATURE, C_PORT_CONNECTION, nPort+1, 0, 0);
+		}
 	}
 
 	return bResult;
 }
 
-void USBStandardHubuvu (TUSBStandardHub *pThis)
+boolean USBStandardHubConnectionChanged (TUSBStandardHub *pThis)
 {
 	TUSBHostController *pHost = USBFunctionGetHost (&pThis->m_USBFunction);
 	assert (pHost != 0);
 	
 	TUSBEndpoint *pEndpoint0 = USBFunctionGetEndpoint0 (&pThis->m_USBFunction);
 	assert (pEndpoint0 != 0);
+
+	boolean bResult = FALSE;
 
 	for (unsigned nPort = 0; nPort < pThis->m_nPorts; nPort++)
 	{
@@ -392,99 +401,18 @@ void USBStandardHubuvu (TUSBStandardHub *pThis)
 		}
 
 		assert (pThis->m_pStatus[nPort]->wPortStatus & PORT_POWER__MASK);
-		if (!(pThis->m_pStatus[nPort]->wPortStatus & PORT_CONNECTION__MASK))
-		{
-			LogWrite (FromHub, LOG_DEBUG, "uvuvu: no");
-			continue;
-		}
-		LogWrite (FromHub, LOG_DEBUG, "uvuvu: yes");
 
-/*
-		if (DWHCIDeviceControlMessage (pHost, pEndpoint0,
-			REQUEST_OUT | REQUEST_CLASS | REQUEST_TO_OTHER,
-			SET_FEATURE, PORT_RESET, nPort+1, 0, 0) < 0)
-		{
-			LogWrite (FromHub, LOG_ERROR, "Cannot reset port %u", nPort+1);
-
-			continue;
-		}
-
-		MsDelay (100);
-		
-		if (DWHCIDeviceControlMessage (pHost, pEndpoint0,
-			REQUEST_IN | REQUEST_CLASS | REQUEST_TO_OTHER,
-			GET_STATUS, 0, nPort+1, pThis->m_pStatus[nPort], 4) != 4)
-		{
-			return FALSE;
-		}
-
-		//LogWrite (FromHub, LOG_DEBUG, "Port %u status is 0x%04X", nPort+1, (unsigned) pThis->m_pStatus[nPort]->wPortStatus);
-		
-		if (!(pThis->m_pStatus[nPort]->wPortStatus & PORT_ENABLE__MASK))
-		{
-			LogWrite (FromHub, LOG_ERROR, "Port %u is not enabled", nPort+1);
-
-			continue;
-		}
-
-		// check for over-current
-		if (pThis->m_pStatus[nPort]->wPortStatus & PORT_OVER_CURRENT__MASK)
+		// USB 2.0 specification, 11.24.2.7.2 (p. 431)
+		// csud/include/device/hub.h, l. 103
+		if (pThis->m_pStatus[nPort]->wPortChange & C_PORT_CONNECTION__MASK)
 		{
 			DWHCIDeviceControlMessage (pHost, pEndpoint0,
 				REQUEST_OUT | REQUEST_CLASS | REQUEST_TO_OTHER,
-				CLEAR_FEATURE, PORT_POWER, nPort+1, 0, 0);
+				CLEAR_FEATURE, C_PORT_CONNECTION, nPort+1, 0, 0);
 
-			LogWrite (FromHub, LOG_ERROR, "Over-current condition on port %u", nPort+1);
-
-			return FALSE;
+			bResult = TRUE;
 		}
-
-		TUSBSpeed Speed = USBSpeedUnknown;
-		if (pThis->m_pStatus[nPort]->wPortStatus & PORT_LOW_SPEED__MASK)
-		{
-			Speed = USBSpeedLow;
-		}
-		else if (pThis->m_pStatus[nPort]->wPortStatus & PORT_HIGH_SPEED__MASK)
-		{
-			Speed = USBSpeedHigh;
-		}
-		else
-		{
-			Speed = USBSpeedFull;
-		}
-
-		TUSBDevice *pHubDevice = USBFunctionGetDevice (&pThis->m_USBFunction);
-		assert (pHubDevice != 0);
-
-		boolean bSplit     = USBDeviceIsSplit (pHubDevice);
-		u8 ucHubAddress    = USBDeviceGetHubAddress (pHubDevice);
-		u8 ucHubPortNumber = USBDeviceGetHubPortNumber (pHubDevice);
-
-		// Is this the first high-speed hub with a non-high-speed device following in chain?
-		if (   !bSplit
-		    && USBDeviceGetSpeed (pHubDevice) == USBSpeedHigh
-		    && Speed < USBSpeedHigh)
-		{
-			// Then enable split transfers with this hub port as translator.
-			bSplit          = TRUE;
-			ucHubAddress    = USBDeviceGetAddress (pHubDevice);
-			ucHubPortNumber = nPort+1;
-		}
-
-		// first create default device
-		assert (pThis->m_pDevice[nPort] == 0);
-		pThis->m_pDevice[nPort] = malloc (sizeof (TUSBDevice));
-		assert (pThis->m_pDevice[nPort] != 0);
-		USBDevice (pThis->m_pDevice[nPort], pHost, Speed, bSplit, ucHubAddress, ucHubPortNumber);
-
-		if (!USBDeviceInitialize (pThis->m_pDevice[nPort]))
-		{
-			_USBDevice (pThis->m_pDevice[nPort]);
-			free (pThis->m_pDevice[nPort]);
-			pThis->m_pDevice[nPort] = 0;
-
-			continue;
-		}
-*/
 	}
+
+	return bResult;
 }

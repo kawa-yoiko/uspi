@@ -29,9 +29,9 @@ static const char FromUSPi[] = "uspi";
 
 static TUSPiLibrary *s_pLibrary = 0;
 
-void USPiuvu (void)
+int USPiConnectionChanged (void)
 {
-	DWHCIRootPortuvu (&s_pLibrary->DWHCI.m_RootPort);
+	return (int) DWHCIRootPortConnectionChanged (&s_pLibrary->DWHCI.m_RootPort);
 }
 
 void USPiDeinitialize (void)

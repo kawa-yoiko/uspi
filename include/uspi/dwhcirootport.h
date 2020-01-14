@@ -42,6 +42,8 @@ void _DWHCIRootPort (TDWHCIRootPort *pThis);
 
 boolean DWHCIRootPortInitialize (TDWHCIRootPort *pThis);
 
+boolean DWHCIRootPortConnectionChanged (TDWHCIRootPort *pThis);
+
 #ifdef __cplusplus
 }
 #endif

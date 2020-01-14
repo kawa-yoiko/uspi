@@ -49,6 +49,8 @@ void _USBStandardHub (TUSBStandardHub *pThis);
 boolean USBStandardHubInitialize (TUSBStandardHub *pThis);
 boolean USBStandardHubConfigure (TUSBFunction *pUSBFunction);
 
+boolean USBStandardHubConnectionChanged (TUSBStandardHub *pThis);
+
 #ifdef __cplusplus
 }
 #endif

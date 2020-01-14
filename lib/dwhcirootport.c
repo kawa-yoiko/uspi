@@ -114,14 +114,13 @@ boolean DWHCIRootPortInitialize (TDWHCIRootPort *pThis)
 	return TRUE;
 }
 
-void DWHCIRootPortuvu (TDWHCIRootPort *pThis)
+boolean DWHCIRootPortConnectionChanged (TDWHCIRootPort *pThis)
 {
 	for (unsigned i = 0; i < USBDEV_MAX_FUNCTIONS; i++)
 	{
 		if (pThis->m_pDevice->m_pFunction[i] != 0) {
-			LogWrite (FromDWHCIRoot, LOG_DEBUG, "uvu: %p %p %p (%u)",
-				pThis, pThis->m_pDevice, pThis->m_pDevice->m_pFunction[i], i);
-			USBStandardHubuvu(pThis->m_pDevice->m_pFunction[i]);
+			return USBStandardHubConnectionChanged(pThis->m_pDevice->m_pFunction[i]);
 		}
 	}
+	return FALSE;
 }
