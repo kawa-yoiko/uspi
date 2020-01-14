@@ -20,6 +20,7 @@
 #include <uspi/uspilibrary.h>
 #include <uspi.h>
 #include <uspios.h>
+#include <uspi/dwhcidevice.h>
 #include <uspi/usbfunction.h>
 #include <uspi/string.h>
 #include <uspi/util.h>
@@ -28,6 +29,11 @@
 static const char FromUSPi[] = "uspi";
 
 static TUSPiLibrary *s_pLibrary = 0;
+
+int USPiConnectionChanged (void)
+{
+	return (int) DWHCIDeviceConnectionChanged (&s_pLibrary->DWHCI);
+}
 
 void USPiDeinitialize (void)
 {
@@ -79,6 +85,9 @@ int USPiInitialize (void)
 
 		return 0;
 	}
+
+	// Reset change signal bits
+	USPiConnectionChanged ();
 
 	s_pLibrary->pUKBD1 = (TUSBKeyboardDevice *) DeviceNameServiceGetDevice (DeviceNameServiceGet (), "ukbd1", FALSE);
 

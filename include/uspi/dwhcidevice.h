@@ -78,6 +78,8 @@ TUSBSpeed DWHCIDeviceGetPortSpeed (TDWHCIDevice *pThis);
 boolean DWHCIDeviceOvercurrentDetected (TDWHCIDevice *pThis);
 void DWHCIDeviceDisableRootPort (TDWHCIDevice *pThis);
 
+boolean DWHCIDeviceConnectionChanged (TDWHCIDevice *pThis);
+
 #ifdef __cplusplus
 }
 #endif

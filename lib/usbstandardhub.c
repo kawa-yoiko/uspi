@@ -370,3 +370,41 @@ boolean USBStandardHubEnumeratePorts (TUSBStandardHub *pThis)
 
 	return bResult;
 }
+
+boolean USBStandardHubConnectionChanged (TUSBStandardHub *pThis)
+{
+	TUSBHostController *pHost = USBFunctionGetHost (&pThis->m_USBFunction);
+	assert (pHost != 0);
+	
+	TUSBEndpoint *pEndpoint0 = USBFunctionGetEndpoint0 (&pThis->m_USBFunction);
+	assert (pEndpoint0 != 0);
+
+	boolean bResult = FALSE;
+
+	for (unsigned nPort = 0; nPort < pThis->m_nPorts; nPort++)
+	{
+		if (DWHCIDeviceControlMessage (pHost, pEndpoint0,
+			REQUEST_IN | REQUEST_CLASS | REQUEST_TO_OTHER,
+			GET_STATUS, 0, nPort+1, pThis->m_pStatus[nPort], 4) != 4)
+		{
+			LogWrite (FromHub, LOG_ERROR, "Cannot get status of port %u", nPort+1);
+
+			continue;
+		}
+
+		assert (pThis->m_pStatus[nPort]->wPortStatus & PORT_POWER__MASK);
+
+		// USB 2.0 specification, 11.24.2.7.2 (p. 431)
+		// csud/include/device/hub.h, l. 103
+		if (pThis->m_pStatus[nPort]->wPortChange & C_PORT_CONNECTION__MASK)
+		{
+			DWHCIDeviceControlMessage (pHost, pEndpoint0,
+				REQUEST_OUT | REQUEST_CLASS | REQUEST_TO_OTHER,
+				CLEAR_FEATURE, C_PORT_CONNECTION, nPort+1, 0, 0);
+
+			bResult = TRUE;
+		}
+	}
+
+	return bResult;
+}

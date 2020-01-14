@@ -511,6 +511,7 @@ boolean DWHCIDeviceEnableRootPort (TDWHCIDevice *pThis)
 	if (!DWHCIDeviceWaitForBit (pThis, &HostPort, DWHCI_HOST_PORT_CONNECT, TRUE, 20))
 	{
 		_DWHCIRegister (&HostPort);
+		// pThis->m_bLastConnect = FALSE;
 
 		return FALSE;
 	}
@@ -1369,6 +1370,11 @@ void DWHCIDeviceDisableRootPort (TDWHCIDevice *pThis)
 	DWHCIRegisterWrite (&HostPort);
 
 	_DWHCIRegister (&HostPort);
+}
+
+boolean DWHCIDeviceConnectionChanged (TDWHCIDevice *pThis)
+{
+	return DWHCIRootPortConnectionChanged(&pThis->m_RootPort);
 }
 
 #ifndef NDEBUG
