@@ -9,7 +9,7 @@ void USBGamePadDeviceReportDecoder_PS4(TUSBGamePadDevice *d)
 {
     u8 *report = d->m_pReportBuffer;
     USPiGamePadState *state = &d->m_State;
-    DebugHexdump(report, REPORT_LEN, "ds4 controller");
+    // DebugHexdump(report, REPORT_LEN, "ds4 controller");
 
     // Buttons
     state->nbuttons = 14;
