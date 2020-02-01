@@ -19,6 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
 #include <uspi/usbgamepad.h>
+#include <uspi/usbgamepaddecoders.h>
 #include <uspi/usbhostcontroller.h>
 #include <uspi/devicenameservice.h>
 #include <uspi/assert.h>
@@ -206,6 +207,11 @@ static void USBGamePadDeviceDecodeReport(TUSBGamePadDevice *pThis)
     s32 naxes = 0, nhats = 0;
     u32 id = 0, state = None;
 
+    if (pThis->m_Decoder != 0) {
+        (*pThis->m_Decoder) (pThis);
+        return;
+    }
+
     u8 *pReportBuffer = pThis->m_pReportBuffer;
     s8 *pHIDReportDescriptor = (s8 *)pThis->m_pHIDReportDescriptor;
     u16 wReportDescriptorLength = pThis->m_usReportDescriptorLength;
@@ -338,6 +344,11 @@ static void USBGamePadDeviceDecodeReport(TUSBGamePadDevice *pThis)
     pThis->m_nReportSize = (offset + 7) / 8;
 }
 
+static TUSBGamePadDeviceReportDecoder *const reportDecoders[USBGamePadTypeTotal] = {
+	0,
+	USBGamePadDeviceReportDecoder_PS4,
+};
+
 boolean USBGamePadDeviceConfigure (TUSBFunction *pUSBFunction)
 {
 	TUSBGamePadDevice *pThis = (TUSBGamePadDevice *) pUSBFunction;
@@ -443,6 +454,18 @@ boolean USBGamePadDeviceConfigure (TUSBFunction *pUSBFunction)
     {
         USBGamePadDevicePS3Configure (pThis);
     }
+
+	unsigned short vendor = USBFunctionGetDevice (pUSBFunction)->m_pDeviceDesc->idVendor;
+	unsigned short product = USBFunctionGetDevice (pUSBFunction)->m_pDeviceDesc->idProduct;
+        pThis->m_GamePadType = USBGamePadTypeGeneral;
+        if ((vendor == 0x54c && product == 0x5c4) ||
+            (vendor == 0x54c && product == 0x9cc)
+        ) {
+            pThis->m_GamePadType = USBGamePadTypePS4;
+        }
+	if (pThis->m_GamePadType != USBGamePadTypeGeneral) {
+            pThis->m_Decoder = reportDecoders[pThis->m_GamePadType];
+        }
 
 	TString DeviceName;
 	String (&DeviceName);

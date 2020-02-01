@@ -28,6 +28,17 @@
 #include <uspi/types.h>
 #include <uspi.h>
 
+struct TUSBGamePadDevice;
+typedef void TUSBGamePadDeviceReportDecoder (struct TUSBGamePadDevice *pThis);
+
+typedef enum TUSBGamePadDeviceType
+{
+	USBGamePadTypeGeneral = 0,
+	USBGamePadTypePS4,
+	USBGamePadTypeTotal,
+}
+TUSBGamePadDeviceType;
+
 typedef struct TUSBGamePadDevice
 {
 	TUSBFunction m_USBFunction;
@@ -45,6 +56,9 @@ typedef struct TUSBGamePadDevice
 	TUSBRequest m_URB;
 	u8 *m_pReportBuffer;
 	u16 m_nReportSize;
+
+	TUSBGamePadDeviceReportDecoder *m_Decoder;
+	TUSBGamePadDeviceType m_GamePadType;
 }
 TUSBGamePadDevice;
 
