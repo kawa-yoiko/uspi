@@ -207,6 +207,9 @@ static void USBGamePadDeviceDecodeReport(TUSBGamePadDevice *pThis)
     s32 naxes = 0, nhats = 0;
     u32 id = 0, state = None;
 
+    USPiGamePadState *pState = &pThis->m_State;
+    pState->type = pThis->m_GamePadType;
+
     if (pThis->m_Decoder != 0) {
         (*pThis->m_Decoder) (pThis);
         return;
@@ -215,7 +218,6 @@ static void USBGamePadDeviceDecodeReport(TUSBGamePadDevice *pThis)
     u8 *pReportBuffer = pThis->m_pReportBuffer;
     s8 *pHIDReportDescriptor = (s8 *)pThis->m_pHIDReportDescriptor;
     u16 wReportDescriptorLength = pThis->m_usReportDescriptorLength;
-    USPiGamePadState *pState = &pThis->m_State;
 
     while (wReportDescriptorLength > 0) {
         item = *pHIDReportDescriptor++;

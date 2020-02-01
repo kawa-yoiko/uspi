@@ -31,14 +31,6 @@
 struct TUSBGamePadDevice;
 typedef void TUSBGamePadDeviceReportDecoder (struct TUSBGamePadDevice *pThis);
 
-typedef enum TUSBGamePadDeviceType
-{
-	USBGamePadTypeGeneral = 0,
-	USBGamePadTypePS4,
-	USBGamePadTypeTotal,
-}
-TUSBGamePadDeviceType;
-
 typedef struct TUSBGamePadDevice
 {
 	TUSBFunction m_USBFunction;

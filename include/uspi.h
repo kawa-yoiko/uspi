@@ -160,8 +160,18 @@ int USPiGamePadAvailable (void);
 #define MAX_AXIS    6
 #define MAX_HATS    6
 
+typedef enum TUSBGamePadDeviceType
+{
+    USBGamePadTypeGeneral = 0,
+    USBGamePadTypePS4,
+    USBGamePadTypeTotal,
+}
+TUSBGamePadDeviceType;
+
 typedef struct USPiGamePadState
 {
+    TUSBGamePadDeviceType type;
+
     int naxes;
     struct
     {
